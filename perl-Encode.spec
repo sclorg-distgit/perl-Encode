@@ -2,7 +2,7 @@
 
 # Because encoding sub-package has independent version, version macro gets
 # redefined.
-%global cpan_version 2.86
+%global cpan_version 2.84
 Name:           %{?scl_prefix}perl-Encode
 Epoch:          4
 Version:        %{cpan_version}
@@ -10,7 +10,7 @@ Version:        %{cpan_version}
 # perl-encoding sub-package has independent version which does not change
 # often and consecutive builds would clash on perl-encoding NEVRA. This is the
 # same case as in perl.spec.
-Release:        1%{?dist}
+Release:        11%{?dist}
 Summary:        Character encodings in Perl
 # ucm:          UCD
 # other files:  GPL+ or Artistic
@@ -65,6 +65,7 @@ BuildRequires:  %{?scl_prefix}perl(IPC::Open3)
 BuildRequires:  %{?scl_prefix}perl(lib)
 BuildRequires:  %{?scl_prefix}perl(Scalar::Util)
 BuildRequires:  %{?scl_prefix}perl(Symbol)
+BuildRequires:  %{?scl_prefix}perl(Test)
 BuildRequires:  %{?scl_prefix}perl(Test::More)
 BuildRequires:  %{?scl_prefix}perl(Tie::Scalar)
 Requires:       %{?scl_prefix}perl(:MODULE_COMPAT_%(%{?scl:scl enable %{scl} '}eval "$(perl -V:version)";echo $version%{?scl:'}))
@@ -96,7 +97,7 @@ of the system. Perl strings are sequences of characters.
 
 %package -n %{?scl_prefix}perl-encoding
 Summary:        Write your Perl script in non-ASCII or non-UTF-8
-Version:        2.18
+Version:        2.17
 License:        GPL+ or Artistic
 Group:          Development/Libraries
 # Keeping this sub-package arch-specific because it installs files into
@@ -180,12 +181,6 @@ find $RPM_BUILD_ROOT -type f -name '*.bs' -size 0 -delete
 %{perl_vendorarch}/Encode/encode.h
 
 %changelog
-* Mon Aug 22 2016 Jitka Plesnikova <jplesnik@redhat.com> - 4:2.86-1
-- 2.86 bump
-
-* Tue Aug 02 2016 Jitka Plesnikova <jplesnik@redhat.com> - 4:2.84-12
-- Avoid loading optional modules from default . (CVE-2016-1238)
-
 * Mon Jul 11 2016 Petr Pisar <ppisar@redhat.com> - 4:2.84-11
 - SCL
 
