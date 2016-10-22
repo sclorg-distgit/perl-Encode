@@ -10,7 +10,7 @@ Version:        %{cpan_version}
 # perl-encoding sub-package has independent version which does not change
 # often and consecutive builds would clash on perl-encoding NEVRA. This is the
 # same case as in perl.spec.
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Character encodings in Perl
 # ucm:          UCD
 # other files:  GPL+ or Artistic
@@ -18,6 +18,8 @@ License:        (GPL+ or Artistic) and UCD
 Group:          Development/Libraries
 URL:            http://search.cpan.org/dist/Encode/
 Source0:        http://www.cpan.org/authors/id/D/DA/DANKOGAI/Encode-%{cpan_version}.tar.gz
+#Avoid loading optional modules from default . (CVE-2016-1238)
+Patch0:         Encode-2.84-CVE-2016-1238-avoid-loading-optional-modules-from.patch
 BuildRequires:  coreutils
 BuildRequires:  findutils
 BuildRequires:  make
@@ -141,6 +143,7 @@ your own encoding to perl. No knowledge of XS is necessary.
 
 %prep
 %setup -q -n Encode-%{cpan_version}
+%patch0 -p1
 
 %build
 # Additional scripts can be installed by appending MORE_SCRIPTS, UCM files by
@@ -181,6 +184,9 @@ find $RPM_BUILD_ROOT -type f -name '*.bs' -size 0 -delete
 %{perl_vendorarch}/Encode/encode.h
 
 %changelog
+* Tue Aug 02 2016 Jitka Plesnikova <jplesnik@redhat.com> - 4:2.84-12
+- Avoid loading optional modules from default . (CVE-2016-1238)
+
 * Mon Jul 11 2016 Petr Pisar <ppisar@redhat.com> - 4:2.84-11
 - SCL
 
