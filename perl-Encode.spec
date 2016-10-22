@@ -2,7 +2,7 @@
 
 # Because encoding sub-package has independent version, version macro gets
 # redefined.
-%global cpan_version 2.84
+%global cpan_version 2.86
 Name:           %{?scl_prefix}perl-Encode
 Epoch:          4
 Version:        %{cpan_version}
@@ -10,7 +10,7 @@ Version:        %{cpan_version}
 # perl-encoding sub-package has independent version which does not change
 # often and consecutive builds would clash on perl-encoding NEVRA. This is the
 # same case as in perl.spec.
-Release:        12%{?dist}
+Release:        1%{?dist}
 Summary:        Character encodings in Perl
 # ucm:          UCD
 # other files:  GPL+ or Artistic
@@ -18,8 +18,6 @@ License:        (GPL+ or Artistic) and UCD
 Group:          Development/Libraries
 URL:            http://search.cpan.org/dist/Encode/
 Source0:        http://www.cpan.org/authors/id/D/DA/DANKOGAI/Encode-%{cpan_version}.tar.gz
-#Avoid loading optional modules from default . (CVE-2016-1238)
-Patch0:         Encode-2.84-CVE-2016-1238-avoid-loading-optional-modules-from.patch
 BuildRequires:  coreutils
 BuildRequires:  findutils
 BuildRequires:  make
@@ -67,7 +65,6 @@ BuildRequires:  %{?scl_prefix}perl(IPC::Open3)
 BuildRequires:  %{?scl_prefix}perl(lib)
 BuildRequires:  %{?scl_prefix}perl(Scalar::Util)
 BuildRequires:  %{?scl_prefix}perl(Symbol)
-BuildRequires:  %{?scl_prefix}perl(Test)
 BuildRequires:  %{?scl_prefix}perl(Test::More)
 BuildRequires:  %{?scl_prefix}perl(Tie::Scalar)
 Requires:       %{?scl_prefix}perl(:MODULE_COMPAT_%(%{?scl:scl enable %{scl} '}eval "$(perl -V:version)";echo $version%{?scl:'}))
@@ -99,7 +96,7 @@ of the system. Perl strings are sequences of characters.
 
 %package -n %{?scl_prefix}perl-encoding
 Summary:        Write your Perl script in non-ASCII or non-UTF-8
-Version:        2.17
+Version:        2.18
 License:        GPL+ or Artistic
 Group:          Development/Libraries
 # Keeping this sub-package arch-specific because it installs files into
@@ -143,7 +140,6 @@ your own encoding to perl. No knowledge of XS is necessary.
 
 %prep
 %setup -q -n Encode-%{cpan_version}
-%patch0 -p1
 
 %build
 # Additional scripts can be installed by appending MORE_SCRIPTS, UCM files by
@@ -184,6 +180,9 @@ find $RPM_BUILD_ROOT -type f -name '*.bs' -size 0 -delete
 %{perl_vendorarch}/Encode/encode.h
 
 %changelog
+* Mon Aug 22 2016 Jitka Plesnikova <jplesnik@redhat.com> - 4:2.86-1
+- 2.86 bump
+
 * Tue Aug 02 2016 Jitka Plesnikova <jplesnik@redhat.com> - 4:2.84-12
 - Avoid loading optional modules from default . (CVE-2016-1238)
 
